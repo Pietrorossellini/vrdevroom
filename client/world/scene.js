@@ -1,13 +1,14 @@
 import * as AFRAME from 'aframe'
 import * as log from 'loglevel'
 
-import {World} from '../util/globals'
+import {World, Sync} from '../util/globals'
 import {self} from '../sync/state'
 import {
   registerSyncComponents,
   SyncSendComponent,
   SyncReceiveComponent
 } from '../sync/syncComponents'
+import {LerpComponent, registerLerpComponents} from '../sync/lerp'
 import {
   registerAudioComponents,
   AudioComponent
@@ -144,13 +145,13 @@ function createAvatar(id, pos, orientation) {
   head.object3D.setRotationFromQuaternion(orientation)
 
   scene.appendChild(avatar)
+  avatar.setAttribute(LerpComponent.Avatar, '')
   avatar.setAttribute(SyncReceiveComponent.Peer, '')
 
   return avatar
 }
 
 function createRayCaster(avatar, position, direction) {
-  console.log('creating new ray caster', avatar, position, direction)
   const rayCaster = document.createElement('a-entity')
 
   rayCaster.setAttribute('class', 'avatar__raycaster')
@@ -161,6 +162,7 @@ function createRayCaster(avatar, position, direction) {
     direction
   })
 
+  rayCaster.setAttribute(LerpComponent.Pointer, {position, direction})
   rayCaster.setAttribute(SyncReceiveComponent.Pointer, '')
   avatar.appendChild(rayCaster)
 }
@@ -182,6 +184,7 @@ function createScene() {
   scene = document.querySelector('a-scene')
   registerSyncComponents()
   registerAudioComponents()
+  registerLerpComponents()
 
   createRoom()
   createLighting()

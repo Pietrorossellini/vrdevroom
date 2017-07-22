@@ -3,6 +3,7 @@
 import * as AFRAME from 'aframe'
 
 import {broadcastData} from '../comms/commsHandler'
+import {LerpComponent} from './lerp'
 import {Sync} from '../util/globals'
 import {now} from '../util/time'
 
@@ -21,7 +22,7 @@ const SyncReceiveComponent = {
 const Sender = {
   init: function() {
     this.setInitialState()
-    this.nextUpdateTime = now() + Sync.TICK_INTERVAL
+    this.nextUpdateTime = now()
   },
 
   setInitialState: function() {},
@@ -149,18 +150,20 @@ function registerSyncComponents() {
    */
 
   AFRAME.registerComponent(SyncReceiveComponent.Peer, createReceiver({
+    dependencies: [LerpComponent.Avatar],
+
     sync: function({position, quaternion}) {
       const {x, z} = position
-      const head = this.el.querySelector('.avatar__head')
       this.el.setAttribute('position', {x, y: 0, z})
-      head.object3D.setRotationFromQuaternion(quaternion)
+      this.el.setAttribute(LerpComponent.Avatar, 'quaternion', quaternion)
     }
   }))
 
   AFRAME.registerComponent(SyncReceiveComponent.Pointer, createReceiver({
+    dependencies: [LerpComponent.Pointer],
+
     sync: function({position, direction}) {
-      this.el.setAttribute('position', position)
-      this.el.setAttribute('raycaster', 'direction', direction)
+      this.el.setAttribute(LerpComponent.Pointer, {position, direction})
     },
 
     willDispose: function() {
