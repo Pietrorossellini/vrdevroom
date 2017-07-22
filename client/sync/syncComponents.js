@@ -18,12 +18,10 @@ const SyncReceiveComponent = {
   Card: 'receiver-card'
 }
 
-const UpdateInterval = Sync.TICK_INTERVAL
-
 const Sender = {
   init: function() {
     this.setInitialState()
-    this.nextUpdateTime = now() + UpdateInterval
+    this.nextUpdateTime = now() + Sync.TICK_INTERVAL
   },
 
   setInitialState: function() {},
@@ -38,7 +36,7 @@ const Sender = {
 
   doSync: function() {
     this.sync()
-    this.nextUpdateTime = now() + UpdateInterval
+    this.nextUpdateTime = now() + Sync.TICK_INTERVAL
   }
 }
 
@@ -115,7 +113,8 @@ function registerSyncComponents() {
     dependencies: ['position'],
 
     schema: {
-      latestUpdate: {type: 'array', default: [0, 0]}
+      latestUpdate: {type: 'array', default: [0, 0]},
+      forcedSync: {type: 'boolean', default: false},
     },
 
     setInitialState() {
@@ -123,11 +122,15 @@ function registerSyncComponents() {
         this.el.components.position.data.x,
         this.el.components.position.data.y,
       ]
+
+      this.nextForcedUpdateTime = now() + Sync.FORCE_UPDATE_INTERVAL
     },
 
     sync: function() {
+      const forceUpdate = this.data.forcedSync && now() >= this.nextForcedUpdateTime
       const {x, y} = this.el.getAttribute('position')
-      if (this.data.latestUpdate[0] === x && this.data.latestUpdate[1] === y) return
+
+      if (!forceUpdate && this.data.latestUpdate[0] === x && this.data.latestUpdate[1] === y) return
 
       const data = [
         'card',
@@ -137,6 +140,7 @@ function registerSyncComponents() {
 
       broadcastData(data)
       this.data.latestUpdate = [x, y]
+      if (forceUpdate) this.nextForcedUpdateTime = now() + Sync.FORCE_UPDATE_INTERVAL
     }
   }))
 

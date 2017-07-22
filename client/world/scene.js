@@ -38,6 +38,8 @@ function createRoom() {
 }
 
 function createCamera(position) {
+  log.info('Creating camera with position', position)
+
   const {x, y, z} = position
 
   const camera = document.createElement('a-camera')
@@ -46,6 +48,7 @@ function createCamera(position) {
   camera.setAttribute(SyncSendComponent.Self, '')
 
   scene.appendChild(camera)
+  createPointer()
 }
 
 function createPointer() {
@@ -164,21 +167,23 @@ function createRayCaster(avatar, position, direction) {
 
 function removeAvatar(id) {
   const el = document.getElementById(id)
+  if (!el) {
+    log.warn('Tried to remove avatar but none was found for client ID', id)
+    return
+  }
   el.parentNode.removeChild(el)
 
   log.info(`Removed avatar ${id} from scene`)
 }
 
-function createScene(cameraPosition) {
-  log.info('Creating scene with camera position', cameraPosition)
+function createScene() {
+  log.info('Creating scene')
 
   scene = document.querySelector('a-scene')
   registerSyncComponents()
   registerAudioComponents()
-  createCamera(cameraPosition)
 
   createRoom()
-  createPointer()
   createLighting()
 
   scene.appendChild(createBoard())
@@ -186,6 +191,7 @@ function createScene(cameraPosition) {
 
 export {
   createScene,
+  createCamera,
   createAvatar,
   removeAvatar,
   createRayCaster

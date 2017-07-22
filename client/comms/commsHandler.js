@@ -9,7 +9,7 @@ import {
   addIceCandidate,
   closePc
 } from './peerConnection'
-import {dispatch} from '../state'
+import {dispatch} from './roomState'
 import {handleRemoteChange, handleRemoteExit} from '../sync/receiver'
 import {streams} from '../audio/spatialAudio'
 import {Sync} from '../util/globals'
@@ -29,8 +29,8 @@ const Peer = Record({pc: null, dc: null})
 
 socket.on('created', room => {
   log.info(`Created room ${room}`)
-  dispatch(new StateEvent({type: StateEventType.IsLeader, data: true}))
-  dispatch(new StateEvent({type: StateEventType.Joined, data: 0}))
+  dispatch(new StateEvent({type: RoomEvent.Joined, data: 0}))
+  dispatch(new StateEvent({type: RoomEvent.IsLeader, data: true}))
 })
 
 socket.on('join', room => {
@@ -40,8 +40,7 @@ socket.on('join', room => {
 socket.on('joined', (room, _, slot) => {
   log.info(`Successfully joined room ${room}`)
   log.info(`Got slot ${slot}`)
-  dispatch(new StateEvent({type: StateEventType.IsLeader, data: false}))
-  dispatch(new StateEvent({type: StateEventType.Joined, data: slot}))
+  dispatch(new StateEvent({type: RoomEvent.Joined, data: slot}))
 })
 
 socket.on('leave', (room, peer) => {

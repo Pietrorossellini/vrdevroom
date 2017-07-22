@@ -10,6 +10,7 @@ World.Keys = {
 const Sync = {}
 
 Sync.TICK_INTERVAL = 1000
+Sync.FORCE_UPDATE_INTERVAL = 5000
 Sync.LOG_MESSAGES = true
 
 export {

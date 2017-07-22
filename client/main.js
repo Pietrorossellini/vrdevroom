@@ -1,13 +1,14 @@
 import * as AFRAME from 'aframe'
 
-import {createScene} from './world/scene'
+import {createScene, createCamera} from './world/scene'
 import {join} from './comms/commsHandler'
-import {dispatch, subscribe} from './state'
+import {subscribe} from './comms/roomState'
 import {World} from './util/globals'
 import {getPositionForAvatar} from './util/position'
 import {initAudio} from './audio/spatialAudio'
 import {registerInputHandlers} from './interaction/inputHandler'
 import {registerCardActions} from './interaction/actions'
+import {prepareToLead} from './sync/receiver'
 import * as log from 'loglevel'
 
 function start() {
@@ -15,22 +16,20 @@ function start() {
 
   if (!isGearVr) log.warn('Unsupported device: not using GearVR. Some things may not work properly.')
 
+  createScene()
   initAudio()
   registerInputHandlers(isGearVr)
   registerCardActions()
 
-  subscribe(['room', 'slot'])
+  subscribe(['slot'])
     .first()
     .onValue(index => {
       const [x, z] = getPositionForAvatar(World.BOARD_POS, index).toArray()
       const cameraPosition = new THREE.Vector3(x, 0, z)
-      dispatch(new StateEvent({type: StateEventType.CameraPositioned, data: cameraPosition}))
+      createCamera(cameraPosition)
     })
 
-  subscribe(['self', 'position'])
-    .first()
-    .onValue(createScene)
-
+  prepareToLead()
   join()
 }
 

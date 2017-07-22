@@ -3,22 +3,16 @@ import {Record, Map} from 'immutable'
 
 import * as log from 'loglevel'
 
-window.StateEventType = {
+window.RoomEvent = {
   Joined: 'joined',
-  IsLeader: 'isLeader',
-  CameraPositioned: 'cameraPosition'
+  IsLeader: 'isLeader'
 }
 
 window.StateEvent = Record({type: null, data: null})
 
 const initialState = Map({
-  room: Map({
-    slot: null,
-    isLeader: null
-  }),
-  self: Map({
-    position: null
-  })
+  slot: null,
+  isLeader: null
 })
 
 const state = (() => {
@@ -60,17 +54,14 @@ const state = (() => {
 
 const dispatch = event => {
   switch (event.type) {
-    case StateEventType.Joined:
-      state.setState(['room', 'slot'], event.data)
+    case RoomEvent.Joined:
+      state.setState(['slot'], event.data)
       break
-    case StateEventType.IsLeader:
-      state.setState(['room', 'isLeader'], event.data)
-      break
-    case StateEventType.CameraPositioned:
-      state.setState(['self', 'position'], event.data)
+    case RoomEvent.IsLeader:
+      state.setState(['isLeader'], event.data)
       break
     default:
-      throw new Error(`Unhandled event of type ${event.type} was dispatched.`)
+      throw new Error(`Unhandled room event of type ${event.type} was dispatched.`)
   }
 }
 

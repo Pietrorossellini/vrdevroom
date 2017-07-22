@@ -1,6 +1,7 @@
 import {peers, cards} from './state'
+import {subscribe} from '../comms/roomState'
 import {createAvatar, removeAvatar, createRayCaster} from '../world/scene'
-import {SyncReceiveComponent} from './syncComponents'
+import {SyncReceiveComponent, SyncSendComponent} from './syncComponents'
 
 import * as log from 'loglevel'
 
@@ -25,6 +26,17 @@ function handleRemoteChange(clientId, parsedData) {
 function handleRemoteExit(clientId) {
   removeAvatar(clientId)
   peers.remove(clientId)
+}
+
+function prepareToLead() {
+  subscribe(['isLeader'])
+    .filter(v => v === true)
+    .onValue(() => {
+      log.info('This client is the leader of the room')
+      log.debug('Activating forced sync for cards', cards.getAll().toJS())
+
+      cards.getAll().forEach(c => c.setAttribute(SyncSendComponent.Card, 'forcedSync', true))
+    })
 }
 
 function upsertPeer(id, data) {
@@ -76,5 +88,6 @@ function upsertCard(id, data) {
 
 export {
   handleRemoteChange,
-  handleRemoteExit
+  handleRemoteExit,
+  prepareToLead
 }
