@@ -7,6 +7,7 @@ import {createCard} from '../models/Card'
 import {cards} from '../sync/state'
 import {SyncSendComponent, SyncReceiveComponent} from '../sync/syncComponents'
 import {CardAction} from '../interaction/actions'
+import {LerpComponent} from '../sync/lerp'
 
 const BoardWidth = 3.0
 const BoardHeight = 1.8
@@ -38,6 +39,7 @@ function createBoard() {
   board.setAttribute('height', BoardHeight)
   board.setAttribute('position', {x: 0, y: 1.5, z: -2.49})
   board.setAttribute('color', '#ffffff')
+  board.setAttribute('class', 'board interactive')
 
   const epics = generateBoardModel()
 
@@ -150,7 +152,7 @@ function createTask(task, i, columnPosition) {
     height: CardHeight
   })
   card.setAttribute('material', 'color', 'yellow')
-  card.setAttribute('class', 'card')
+  card.setAttribute('class', 'card interactive')
   card.setAttribute('text', {
     value: task.text,
     color: 'black',
@@ -178,6 +180,7 @@ function attachSyncHandlers() {
   cards.getAll().forEach(card => {
     card.setAttribute(SyncSendComponent.Card, '')
     card.setAttribute(SyncReceiveComponent.Card, '')
+    card.setAttribute(LerpComponent.Card, '')
   })
 }
 

@@ -111,7 +111,7 @@ function registerSyncComponents() {
   }))
 
   AFRAME.registerComponent(SyncSendComponent.Card, createSender({
-    dependencies: ['position'],
+    dependencies: ['position', LerpComponent.Card],
 
     schema: {
       latestUpdate: {type: 'array', default: [0, 0]},
@@ -129,7 +129,7 @@ function registerSyncComponents() {
 
     sync: function() {
       const forceUpdate = this.data.forcedSync && now() >= this.nextForcedUpdateTime
-      const {x, y} = this.el.getAttribute('position')
+      const {x, y} = this.el.getAttribute(LerpComponent.Card).position // target position of (ongoing) interpolation
 
       if (!forceUpdate && this.data.latestUpdate[0] === x && this.data.latestUpdate[1] === y) return
 
@@ -174,11 +174,11 @@ function registerSyncComponents() {
   }))
 
   AFRAME.registerComponent(SyncReceiveComponent.Card, createReceiver({
-    dependencies: [SyncSendComponent.Card],
+    dependencies: [SyncSendComponent.Card, LerpComponent.Card],
 
     sync: function({x, y}) {
-      this.el.setAttribute('position', {x, y, z: 0.01})
       this.el.setAttribute(SyncSendComponent.Card, 'latestUpdate', [x, y])
+      this.el.setAttribute(LerpComponent.Card, 'position', {x, y, z: 0.01})
     }
   }))
 }

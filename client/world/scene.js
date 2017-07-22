@@ -1,7 +1,7 @@
 import * as AFRAME from 'aframe'
 import * as log from 'loglevel'
 
-import {World, Sync} from '../util/globals'
+import {World} from '../util/globals'
 import {self} from '../sync/state'
 import {
   registerSyncComponents,
@@ -9,6 +9,7 @@ import {
   SyncReceiveComponent
 } from '../sync/syncComponents'
 import {LerpComponent, registerLerpComponents} from '../sync/lerp'
+import {GrabberComponent, registerGrabberComponents} from '../interaction/grabberComponent'
 import {
   registerAudioComponents,
   AudioComponent
@@ -74,6 +75,7 @@ function createPointer() {
       color: 'yellow',
       shader: 'flat'
     })
+    pointer.setAttribute('raycaster', {objects: '.interactive'})
 
     const camera = document.querySelector('a-camera')
     camera.appendChild(pointer)
@@ -82,6 +84,7 @@ function createPointer() {
   if (isGearVr) pointer.setAttribute(InputHandlerComponent.GearVrController, '')
 
   pointer.setAttribute(SyncSendComponent.Pointer, '')
+  pointer.setAttribute(GrabberComponent.Pointer, '')
   self.add(World.Keys.Pointer, pointer)
 }
 
@@ -158,7 +161,7 @@ function createRayCaster(avatar, position, direction) {
   rayCaster.setAttribute('position', position)
   rayCaster.setAttribute('raycaster', {
     showLine: true,
-    objects: '.card',
+    objects: '.interactive',
     direction
   })
 
@@ -185,6 +188,7 @@ function createScene() {
   registerSyncComponents()
   registerAudioComponents()
   registerLerpComponents()
+  registerGrabberComponents()
 
   createRoom()
   createLighting()
