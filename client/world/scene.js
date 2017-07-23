@@ -9,7 +9,9 @@ import {
   SyncReceiveComponent
 } from '../sync/syncComponents'
 import {LerpComponent, registerLerpComponents} from '../sync/lerp'
-import {GrabberComponent, registerGrabberComponents} from '../interaction/grabberComponent'
+import {ToolComponent} from '../interaction/tools/toolType'
+import {registerGrabberComponent} from '../interaction/tools/grabberComponent'
+import {registerZoomerComponent} from '../interaction/tools/zoomerComponent'
 import {
   registerAudioComponents,
   AudioComponent
@@ -84,7 +86,8 @@ function createPointer() {
   if (isGearVr) pointer.setAttribute(InputHandlerComponent.GearVrController, '')
 
   pointer.setAttribute(SyncSendComponent.Pointer, '')
-  pointer.setAttribute(GrabberComponent.Pointer, '')
+  pointer.setAttribute(ToolComponent.Grabber, '')
+  pointer.setAttribute(ToolComponent.Zoomer, '')
   self.add(World.Keys.Pointer, pointer)
 }
 
@@ -93,7 +96,7 @@ function createLighting() {
   ambient.setAttribute('light', {
     type: 'ambient',
     color: '#FAFAD2',
-    intensity: 0.1
+    intensity: 0.5
   })
 
   const point = document.createElement('a-entity')
@@ -188,7 +191,8 @@ function createScene() {
   registerSyncComponents()
   registerAudioComponents()
   registerLerpComponents()
-  registerGrabberComponents()
+  registerGrabberComponent()
+  registerZoomerComponent()
 
   createRoom()
   createLighting()

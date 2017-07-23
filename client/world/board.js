@@ -4,10 +4,11 @@ import {reduce} from 'lodash'
 import boardData from '../data/board.json'
 import {Epic} from '../models/Epic'
 import {createCard} from '../models/Card'
-import {cards} from '../sync/state'
+import {self, cards} from '../sync/state'
 import {SyncSendComponent, SyncReceiveComponent} from '../sync/syncComponents'
 import {CardAction} from '../interaction/actions'
 import {LerpComponent} from '../sync/lerp'
+import {World} from '../util/globals'
 
 const BoardWidth = 3.0
 const BoardHeight = 1.8
@@ -18,8 +19,6 @@ const RowSep = 0.4
 const ColWidth = (BoardWidth - (NumCols - 1) * ColSep) / NumCols
 const RowHeight = 0.5
 
-const CardWidth = 0.1
-const CardHeight = 0.1
 const CardSepH = 0.25
 const CardSepV = 0.25
 
@@ -148,8 +147,8 @@ function createTask(task, i, columnPosition) {
   card.setAttribute('id', task.id)
   card.setAttribute('geometry', {
     primitive: 'plane',
-    width: CardWidth,
-    height: CardHeight
+    width: World.CARD_SIZE.width,
+    height: World.CARD_SIZE.height
   })
   card.setAttribute('material', 'color', 'yellow')
   card.setAttribute('class', 'card interactive')
@@ -162,8 +161,8 @@ function createTask(task, i, columnPosition) {
 
   const cardPosition = new THREE.Vector3().addVectors(columnPosition,
     new THREE.Vector2(
-      0.5 * ColWidth - CardWidth - (i % 2 === 0 ? 0 : CardSepH),
-      0.5 * RowHeight - CardHeight - Math.floor(0.5 * i) * CardSepV,
+      0.5 * ColWidth - World.CARD_SIZE.width - (i % 2 === 0 ? 0 : CardSepH),
+      0.5 * RowHeight - World.CARD_SIZE.height - Math.floor(0.5 * i) * CardSepV,
     ))
 
   card.setAttribute('position', {

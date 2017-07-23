@@ -1,14 +1,11 @@
 import * as AFRAME from 'aframe'
 import Bacon from 'baconjs'
 import {head} from 'lodash'
-import {LerpComponent} from '../sync/lerp'
+import {ToolComponent} from './toolType'
+import {LerpComponent} from '../../sync/lerp'
 
-const GrabberComponent = {
-  Pointer: 'grabber-pointer'
-}
-
-function registerGrabberComponents() {
-  AFRAME.registerComponent(GrabberComponent.Pointer, {
+function registerGrabberComponent() {
+  AFRAME.registerComponent(ToolComponent.Grabber, {
     dependencies: ['raycaster'],
 
     init: function() {
@@ -61,6 +58,5 @@ function registerGrabberComponents() {
 }
 
 export {
-  registerGrabberComponents,
-  GrabberComponent
+  registerGrabberComponent
 }

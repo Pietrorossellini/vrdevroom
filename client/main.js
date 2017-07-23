@@ -18,7 +18,6 @@ function start() {
 
   createScene()
   initAudio()
-  registerInputHandlers(isGearVr)
   registerCardActions()
 
   subscribe(['slot'])
@@ -27,6 +26,7 @@ function start() {
       const [x, z] = getPositionForAvatar(World.BOARD_POS, index).toArray()
       const cameraPosition = new THREE.Vector3(x, 0, z)
       createCamera(cameraPosition)
+      registerInputHandlers(isGearVr)
     })
 
   prepareToLead()
