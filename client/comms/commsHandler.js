@@ -49,6 +49,12 @@ socket.on('leave', (room, peer) => {
   disposePeer(peer)
 })
 
+socket.on('lead', (room, leader) => {
+  const shouldLead = leader === socket.id
+  if (shouldLead) dispatch(new StateEvent({type: RoomEvent.IsLeader, data: true}))
+  else log.info(`A new leader for room ${room} has been elected: the new leader is ${leader}`)
+})
+
 socket.on('full', room => log.warn(`Room ${room} is full!`))
 socket.on('log', array => log.debug.apply(log, array))
 
