@@ -5,6 +5,7 @@ import boardData from '../data/board.json'
 import {Epic} from '../models/Epic'
 import {createCard} from '../models/Card'
 import {self, cards} from '../sync/state'
+import avatar from '../world/avatar'
 import {SyncSendComponent, SyncReceiveComponent} from '../sync/syncComponents'
 import {CardAction} from '../interaction/actions'
 import {LerpComponent} from '../sync/lerp'
@@ -158,6 +159,7 @@ function createTask(task, i, columnPosition) {
     wrapCount: 10,
   })
   card.setAttribute(CardAction.Hover, '')
+  card.setAttribute(CardAction.Selection, 'color', avatar.getColor())
 
   const cardPosition = new THREE.Vector3().addVectors(columnPosition,
     new THREE.Vector2(

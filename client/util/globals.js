@@ -3,6 +3,11 @@ const World = {}
 World.BOARD_POS = new THREE.Vector2(0, -2.5)
 World.CARD_SIZE = {width: 0.1, height: 0.1}
 World.USER_HEIGHT = 1.6
+World.AVATAR_COLORS = [
+  '#5b7abf',
+  '#16bc65',
+  '#e3175f'
+]
 
 World.Keys = {
   Pointer: 'pointer'

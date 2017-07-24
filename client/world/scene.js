@@ -4,20 +4,15 @@ import * as log from 'loglevel'
 import {World} from '../util/globals'
 import {self} from '../sync/state'
 import {
-  registerSyncComponents,
   SyncSendComponent,
   SyncReceiveComponent
 } from '../sync/syncComponents'
-import {LerpComponent, registerLerpComponents} from '../sync/lerp'
+import {LerpComponent} from '../sync/lerp'
 import {ToolComponent} from '../interaction/tools/toolType'
-import {registerGrabberComponent} from '../interaction/tools/grabberComponent'
-import {registerZoomerComponent} from '../interaction/tools/zoomerComponent'
-import {
-  registerAudioComponents,
-  AudioComponent
-} from '../audio/audioComponent'
+import {AudioComponent} from '../audio/audioComponent'
 import {InputHandlerComponent} from '../interaction/inputHandler'
 import {createBoard} from './board'
+import avatar from '../world/avatar'
 
 let scene = null
 
@@ -74,6 +69,13 @@ function createPointer() {
     camera.appendChild(pointer)
   }
 
+  // TODO lift to constant
+
+  pointer.setAttribute('line', {
+    opacity: 0.3,
+    color: avatar.getColor()
+  })
+
   pointer.setAttribute('raycaster', {
     objects: '.interactive',
     recursive: false
@@ -107,7 +109,7 @@ function createLighting() {
   scene.appendChild(point)
 }
 
-function createAvatar(id, pos, orientation) {
+function createAvatar(id, pos, orientation, slot) {
   const {x, z} = pos
   const y = 0
 
@@ -124,17 +126,18 @@ function createAvatar(id, pos, orientation) {
     height: 0.16,
     depth: 0.16
   })
-  head.setAttribute('material', 'color', '#ffffff')
+  head.setAttribute('material', 'color', World.AVATAR_COLORS[slot])
   head.setAttribute('position', {x: 0, y: World.USER_HEIGHT, z: 0})
 
   const body = document.createElement('a-entity')
+  body.setAttribute('class', 'avatar__body')
   body.setAttribute('geometry', {
     primitive: 'cone',
     radiusTop: 0,
     radiusBottom: 0.2,
     height: 0.5
   })
-  body.setAttribute('material', 'color', '#ffffff')
+  body.setAttribute('material', 'color', World.AVATAR_COLORS[slot])
   body.setAttribute('position', {x: 0, y: World.USER_HEIGHT - 0.25, z: 0})
 
   avatar.appendChild(head)
@@ -148,22 +151,28 @@ function createAvatar(id, pos, orientation) {
   avatar.setAttribute(LerpComponent.Avatar, '')
   avatar.setAttribute(SyncReceiveComponent.Peer, '')
 
+  createRayCaster(id, avatar, World.AVATAR_COLORS[slot])
+
   return avatar
 }
 
-function createRayCaster(avatar, position, direction) {
+function createRayCaster(peerId, avatar, color) {
   const rayCaster = document.createElement('a-entity')
 
   rayCaster.setAttribute('class', 'avatar__raycaster')
-  rayCaster.setAttribute('position', position)
+  rayCaster.setAttribute('id', `${peerId}__raycaster`)
   rayCaster.setAttribute('raycaster', {
     showLine: true,
     objects: '.interactive',
-    direction
+    recursive: false
   })
 
-  rayCaster.setAttribute(LerpComponent.Pointer, {position, direction})
-  rayCaster.setAttribute(SyncReceiveComponent.Pointer, '')
+  rayCaster.setAttribute('line', {
+    color: new THREE.Color().setStyle(color),
+    opacity: 0.5
+  })
+
+  rayCaster.setAttribute(SyncReceiveComponent.Pointer, {peerId})
   avatar.appendChild(rayCaster)
 }
 
@@ -182,11 +191,6 @@ function createScene() {
   log.info('Creating scene')
 
   scene = document.querySelector('a-scene')
-  registerSyncComponents()
-  registerAudioComponents()
-  registerLerpComponents()
-  registerGrabberComponent()
-  registerZoomerComponent()
 
   createRoom()
   createLighting()

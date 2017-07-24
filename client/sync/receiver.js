@@ -16,7 +16,7 @@ function handleRemoteChange(clientId, parsedData) {
       updateRay(clientId, payload)
       break
     case 'card':
-      upsertCard(id, payload)
+      upsertCard(clientId, id, payload)
       break
     default:
       log.error('Received data with invalid type:', type)
@@ -43,10 +43,11 @@ function upsertPeer(id, data) {
   const avatar = peers.get(id)
   const position = new THREE.Vector3().fromArray(data[0])
   const quaternion = new THREE.Quaternion().fromArray(data[1])
+  const slot = data[2]
 
   if (avatar) avatar.emit('sync', {position, quaternion}, null, false)
   else {
-    const a = createAvatar(id, position, quaternion)
+    const a = createAvatar(id, position, quaternion, slot)
     peers.add(id, a)
   }
 }
@@ -60,30 +61,16 @@ function updateRay(peerId, data) {
   const position = new THREE.Vector3().fromArray(data[1])
   const direction = new THREE.Vector3().fromArray(data[2])
 
-  // Remote client started presenting
-  if (isPresenting && !rayCaster) {
-    avatar.object3D.worldToLocal(position)
-    createRayCaster(avatar, position, direction)
-  }
-
-  // Update representation
-  else if (isPresenting) {
-    avatar.object3D.worldToLocal(position)
-    rayCaster.emit('sync', {position, direction}, null, false)
-  }
-
-  // Remote stopped presenting
-  else if (rayCaster) {
-    rayCaster.components[SyncReceiveComponent.Pointer].willDispose()
-    avatar.removeChild(rayCaster)
-  }
+  avatar.object3D.worldToLocal(position)
+  rayCaster.emit('sync', {position, direction, isPresenting, peerId}, null, false)
 }
 
-function upsertCard(id, data) {
+function upsertCard(peerId, id, data) {
   const [x, y] = data[0]
+  const isSelected = data[1]
   const card = cards.get(id)
 
-  if (card) card.emit('sync', {x, y})
+  if (card) card.emit('sync', {x, y, isSelected, peerId}, null, false)
   else log.warn(`No card by id ${id} found. Creation of new card by remote event is unsupported.`)
 }
 

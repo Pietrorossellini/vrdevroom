@@ -93,7 +93,7 @@ function registerLerpComponents() {
       this.el.object3D.position.set(
         this.pos.x,
         this.pos.y,
-        this.el.object3D.position.z
+        this.pos.z
       )
     }
   })

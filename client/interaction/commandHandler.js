@@ -40,6 +40,7 @@ class CommandHandler {
           case Command.Present:
             this._clearZoom()
             this.pointer.addState('presenting')
+            this.pointer.setAttribute('line', {opacity: 1.0})
             break
           case Command.Grab:
             this._clearZoom()
@@ -58,6 +59,7 @@ class CommandHandler {
             break
           case Command.Present:
             this.pointer.removeState('presenting')
+            this.pointer.setAttribute('line', {opacity: 0.3})
             break
           case Command.Grab:
             this._clearGrab()

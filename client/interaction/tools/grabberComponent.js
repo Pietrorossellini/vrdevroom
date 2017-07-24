@@ -31,9 +31,11 @@ function registerGrabberComponent() {
         .onValue(card => {
           this.grabbedCard = card
           this.el.addState('grabbing')
+          this.grabbedCard.addState('selected')
         })
 
       release.onValue(() => {
+        this.grabbedCard.removeState('selected')
         this.grabbedCard = null
         this.el.removeState('grabbing')
       })
