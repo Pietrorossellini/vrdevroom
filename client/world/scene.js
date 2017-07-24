@@ -64,6 +64,7 @@ function createPointer() {
   if (isGearVr) {
     log.info('Using GearVR. Assuming GearVR controller is available: using laser controls.')
     pointer.setAttribute('laser-controls', '')
+    pointer.setAttribute(InputHandlerComponent.GearVrController, '')
     scene.appendChild(pointer)
   } else {
     log.warn('Not using GearVR: revering to cursor controls.')
@@ -77,13 +78,15 @@ function createPointer() {
       color: 'yellow',
       shader: 'flat'
     })
-    pointer.setAttribute('raycaster', {objects: '.interactive'})
 
     const camera = document.querySelector('a-camera')
     camera.appendChild(pointer)
   }
 
-  if (isGearVr) pointer.setAttribute(InputHandlerComponent.GearVrController, '')
+  pointer.setAttribute('raycaster', {
+    objects: '.interactive',
+    recursive: false
+  })
 
   pointer.setAttribute(SyncSendComponent.Pointer, '')
   pointer.setAttribute(ToolComponent.Grabber, '')
