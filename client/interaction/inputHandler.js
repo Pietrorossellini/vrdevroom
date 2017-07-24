@@ -47,6 +47,9 @@ function registerGearVrHandler() {
   })
 }
 
+// TODO Improve interaction
+// Keyboard/mouse input should be improved now that from A-Frame 0.6.1 onwards
+// mouse cursor position can be used as the raycaster
 function addKeyListeners() {
   const pointer = self.get(World.Keys.Pointer)
   const commandHandler = new CommandHandler(pointer)

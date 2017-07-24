@@ -24,7 +24,7 @@
     "webpack-hot-middleware": "^2.18.0"
   },
   "dependencies": {
-    "aframe": "^0.6.0",
+    "aframe": "^0.6.1",
     "baconjs": "^0.7.94",
     "express": "^4.15.3",
     "immutable": "^3.8.1",
