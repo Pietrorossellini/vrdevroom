@@ -3,6 +3,7 @@ import Bacon from 'baconjs'
 import {head} from 'lodash'
 import {ToolComponent} from './toolType'
 import {LerpComponent} from '../../sync/lerp'
+import {World} from '../../util/globals'
 
 function registerGrabberComponent() {
   AFRAME.registerComponent(ToolComponent.Grabber, {
@@ -60,7 +61,7 @@ function registerGrabberComponent() {
       if (!pointedPosition) return
 
       const localPosition = boardIntersection.object.worldToLocal(pointedPosition)
-      this.grabbedCard.setAttribute(LerpComponent.Card, 'position', {x: localPosition.x, y: localPosition.y, z: 0.01})
+      this.grabbedCard.setAttribute(LerpComponent.Card, 'position', {x: localPosition.x, y: localPosition.y, z: World.CARD_Z})
     }
   })
 }

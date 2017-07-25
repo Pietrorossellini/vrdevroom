@@ -7,7 +7,7 @@ import {LerpComponent} from './lerp'
 import avatar from '../world/avatar'
 import {peers} from './state'
 import {CardAction} from '../interaction/actions'
-import {Sync} from '../util/globals'
+import {Sync, World} from '../util/globals'
 import {now} from '../util/time'
 
 const SyncSendComponent = {
@@ -204,7 +204,7 @@ function registerSyncComponents() {
 
     sync: function({x, y, isSelected, peerId}) {
       this.el.setAttribute(SyncSendComponent.Card, 'latestUpdate', [x, y])
-      this.el.setAttribute(LerpComponent.Card, 'position', {x, y, z: 0.01})
+      this.el.setAttribute(LerpComponent.Card, 'position', {x, y, z: World.CARD_Z})
 
       if (isSelected) {
         const color = peers.get(peerId).querySelector('.avatar__head').getAttribute('material').color

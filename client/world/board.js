@@ -11,6 +11,8 @@ import {CardAction} from '../interaction/actions'
 import {LerpComponent} from '../sync/lerp'
 import {World} from '../util/globals'
 
+import {truncateText, TextComponent} from './cardText'
+
 const BoardWidth = 3.0
 const BoardHeight = 1.8
 const NumCols = 4.0
@@ -37,7 +39,7 @@ function createBoard() {
 
   board.setAttribute('width', BoardWidth)
   board.setAttribute('height', BoardHeight)
-  board.setAttribute('position', {x: 0, y: 1.5, z: -2.49})
+  board.setAttribute('position', {x: 0, y: 1.5, z: World.BOARD_POS.y - 0.001})
   board.setAttribute('color', '#ffffff')
   board.setAttribute('class', 'board interactive')
 
@@ -45,16 +47,62 @@ function createBoard() {
 
   let rowIndex = 0
   epics.forEach((taskList, name) => createEpic(name, taskList, rowIndex++))
+  board.appendChild(createGrid(2))
 
   attachSyncHandlers()
   return board
+}
+
+function createGrid(numRows) {
+  const grid = document.createElement('a-entity')
+  grid.setAttribute('id', 'grid')
+  grid.setAttribute('geometry', {
+    primitive: 'plane',
+    height: 0.01,
+    width: BoardWidth
+  })
+  grid.setAttribute('material', 'color', 'lightgrey')
+  const y = BoardHeight / 2 - BoardHeight / numRows
+  grid.setAttribute('position', {x: 0, y, z: 0.001})
+
+  // for (let i = 1; i < numRows - 1; i++) {
+  //   const y = -i * (BoardHeight / numRows)
+  //   const border = document.createElement('a-entity')
+  //   border.setAttribute('geometry', {
+  //     primitive: 'plane',
+  //     height: 0.01,
+  //     width: BoardWidth,
+  //     buffer: false,
+  //     skipCache: true,
+  //     mergeTo: '#grid'
+  //   })
+  //
+  //   border.setAttribute('position', {x: 0, y, z: 0})
+  //   border.setAttribute('material', 'color', 'lightgrey')
+  //   grid.appendChild(border)
+  // }
+
+  for (let i = 1; i < NumCols; i++) {
+    const x = -BoardWidth / 2 + i * BoardWidth / NumCols
+    const border = document.createElement('a-entity')
+    border.setAttribute('geometry', {
+      primitive: 'plane',
+      height: BoardHeight,
+      width: 0.01
+    })
+    border.setAttribute('position', {x, y: 0, z: 0})
+    border.setAttribute('material', 'color', 'lightgrey')
+    grid.appendChild(border)
+  }
+
+  return grid
 }
 
 function createEpic(name, taskList, rowIndex) {
   const rowPosition = new THREE.Vector3(
     0,
     0.5 * (BoardHeight - RowHeight) - rowIndex * (RowHeight + RowSep),
-    0.01
+    0.001
   )
 
   board.appendChild(createRowLabel(name, rowPosition))
@@ -70,10 +118,14 @@ function createRowLabel(text, rowPosition) {
     width: 0.4,
     height: 0.4
   })
+  rowLabel.setAttribute('material', {
+    color: 'grey'
+  })
   rowLabel.setAttribute('text', {
     value: text,
     color: 'white',
-    wrapCount: 10,
+    wrapCount: 8,
+    align: 'center'
   })
 
   const position = new THREE.Vector3().addVectors(rowPosition,
@@ -93,7 +145,7 @@ function createColumn(phase, tasks, rowIndex, rowPosition) {
     new THREE.Vector3(
       -0.5 * (BoardWidth - ColWidth) + i * (ColWidth + ColSep),
       0,
-      0.01
+      0.001
     ))
 
   let columnPosition
@@ -125,10 +177,14 @@ function createColumnLabel(text, columnPosition) {
     width: 0.4,
     height: 0.4
   })
+  colLabel.setAttribute('material', {
+    color: 'grey'
+  })
   colLabel.setAttribute('text', {
     value: text,
     color: 'white',
-    wrapCount: 10,
+    wrapCount: 8,
+    align: 'center'
   })
 
   const position = new THREE.Vector3().addVectors(columnPosition,
@@ -154,12 +210,14 @@ function createTask(task, i, columnPosition) {
   card.setAttribute('material', 'color', 'yellow')
   card.setAttribute('class', 'card interactive')
   card.setAttribute('text', {
-    value: task.text,
+    value: truncateText(task.text),
     color: 'black',
-    wrapCount: 10,
+    wrapCount: 6,
+    align: 'center'
   })
   card.setAttribute(CardAction.Hover, '')
   card.setAttribute(CardAction.Selection, 'color', avatar.getColor())
+  card.setAttribute(TextComponent.Card, 'value', task.text)
 
   const cardPosition = new THREE.Vector3().addVectors(columnPosition,
     new THREE.Vector2(
@@ -170,7 +228,7 @@ function createTask(task, i, columnPosition) {
   card.setAttribute('position', {
     x: cardPosition.x,
     y: cardPosition.y,
-    z: 0.01
+    z: World.CARD_Z
   })
 
   cards.add(task.id, card)

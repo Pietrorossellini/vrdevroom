@@ -21,9 +21,9 @@ function createRoom() {
 
   room.setAttribute('geometry', {
     primitive: 'box',
-    width: 5,
+    width: 7,
     height: 3.2,
-    depth: 5
+    depth: 7
   })
   room.setAttribute('material', {
     color: '#fafafa',
@@ -103,7 +103,7 @@ function createLighting() {
     distance: 5,
     decay: 1
   })
-  point.setAttribute('position', {x: 0, y: 2.5, z: -2.0})
+  point.setAttribute('position', {x: 0, y: 2.8, z: -1.6})
 
   scene.appendChild(ambient)
   scene.appendChild(point)
@@ -121,24 +121,58 @@ function createAvatar(id, pos, orientation, slot) {
   const head = document.createElement('a-entity')
   head.setAttribute('class', 'avatar__head')
   head.setAttribute('geometry', {
-    primitive: 'box',
-    width: 0.16,
-    height: 0.16,
-    depth: 0.16
+    primitive: 'sphere',
+    radius: 0.1,
+    phiLength: 180,
+    phiStart: 180,
+    segmentsHeight: 4,
+    segmentsWidth: 4
   })
-  head.setAttribute('material', 'color', World.AVATAR_COLORS[slot])
+  head.setAttribute('material', {
+    color: World.AVATAR_COLORS[slot],
+    flatShading: true
+  })
   head.setAttribute('position', {x: 0, y: World.USER_HEIGHT, z: 0})
+
+  const cap = document.createElement('a-entity')
+  cap.setAttribute('geometry', {
+    primitive: 'circle',
+    radius: 0.1,
+    segments: 8
+  })
+  cap.setAttribute('material', {
+    color: World.AVATAR_COLORS[slot],
+  })
+  head.appendChild(cap)
+
+  const rod = document.createElement('a-entity')
+  rod.setAttribute('geometry', {
+    primitive: 'cylinder',
+    radius: 0.025,
+    segmentsRadial: 8,
+    height: 0.2
+  })
+  rod.setAttribute('material', {
+    color: World.AVATAR_COLORS[slot],
+    flatShading: true
+  })
+  head.appendChild(rod)
 
   const body = document.createElement('a-entity')
   body.setAttribute('class', 'avatar__body')
   body.setAttribute('geometry', {
     primitive: 'cone',
-    radiusTop: 0,
-    radiusBottom: 0.2,
-    height: 0.5
+    radiusTop: 0.12,
+    radiusBottom: 0.08,
+    height: 0.5,
+    segmentsRadial: 5,
+    thetaStart: 180
   })
-  body.setAttribute('material', 'color', World.AVATAR_COLORS[slot])
-  body.setAttribute('position', {x: 0, y: World.USER_HEIGHT - 0.25, z: 0})
+  body.setAttribute('material', {
+    color: World.AVATAR_COLORS[slot],
+    flatShading: true
+  })
+  body.setAttribute('position', {x: 0, y: World.USER_HEIGHT - 0.45, z: 0})
 
   avatar.appendChild(head)
   avatar.appendChild(body)

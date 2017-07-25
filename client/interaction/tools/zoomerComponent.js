@@ -1,6 +1,7 @@
 import * as AFRAME from 'aframe'
 import {head} from 'lodash'
 import {ToolComponent} from './toolType'
+import {TextComponent} from '../../world/cardText'
 
 function registerZoomerComponent() {
   AFRAME.registerComponent(ToolComponent.Zoomer, {
@@ -33,10 +34,11 @@ function registerZoomerComponent() {
           color: 'yellow',
           opacity: 0.0
         })
+        const text = this.pointedCard.components[TextComponent.Card].data.value
         this.zoomedCard.setAttribute('text', {
-          value: this.pointedCard.components.text.data.value,
+          value: text,
           color: 'black',
-          wrapCount: 10,
+          wrapCount: Math.max(text.length / 5, 10),
           opacity: 0.0
         })
 

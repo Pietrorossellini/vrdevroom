@@ -15,6 +15,7 @@ import {registerSyncComponents} from './sync/syncComponents'
 import {registerLerpComponents} from './sync/lerp'
 import {registerGrabberComponent} from './interaction/tools/grabberComponent'
 import {registerZoomerComponent} from './interaction/tools/zoomerComponent'
+import {registerCardTextComponent} from './world/cardText'
 
 function start() {
   const isGearVr = AFRAME.utils.device.isGearVR()
@@ -23,6 +24,7 @@ function start() {
 
   registerAudioComponents()
   registerCardActions()
+  registerCardTextComponent()
   registerSyncComponents()
   registerLerpComponents()
   registerZoomerComponent()
