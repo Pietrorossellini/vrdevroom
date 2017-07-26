@@ -1,5 +1,5 @@
 import {createAudioNode, getListener} from './spatialAudio'
-import {Sync} from '../util/globals'
+import {Sync} from '../globals'
 import {now} from '../util/time'
 
 const AudioComponent = {

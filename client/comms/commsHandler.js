@@ -7,7 +7,7 @@ import * as PC from './peerConnection'
 import {dispatch} from './roomState'
 import {handleRemoteChange, handleRemoteExit} from '../sync/receiver'
 import Streams from '../audio/StreamsStore'
-import {Sync} from '../util/globals'
+import {Sync} from '../globals'
 
 import config from '../config.json'
 

@@ -5,7 +5,7 @@ import {
   Command,
   Action
 } from './commandHandler'
-import {World} from '../util/globals'
+import {World} from '../globals'
 import {self} from '../sync/state'
 
 const SpaceKeyCode = 32

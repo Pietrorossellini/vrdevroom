@@ -3,7 +3,7 @@ import {LerpComponent} from './lerpComponents'
 import {CardActionComponent} from '../../interaction/actionComponents'
 
 import {peers} from '../state'
-import {World} from '../../util/globals'
+import {World} from '../../globals'
 import avatar from '../../world/avatar'
 
 const SyncReceiveComponent = {

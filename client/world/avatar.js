@@ -1,5 +1,5 @@
 import {getPositionForAvatar} from '../util/position'
-import {World} from '../util/globals'
+import {World} from '../globals'
 
 const avatar = (() => {
   let slot = null

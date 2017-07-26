@@ -2,7 +2,7 @@ import {CardActionComponent} from '../../../../interaction/actionComponents'
 import {HelperComponent} from '../../../../interaction/helperComponents'
 import {truncateText} from '../../../../util/text'
 
-import {World} from '../../../../util/globals'
+import {World} from '../../../../globals'
 
 const CardSepH = 0.25
 const CardSepV = 0.25

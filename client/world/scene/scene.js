@@ -8,7 +8,7 @@ import Camera from './entities/Camera'
 import * as Light from './entities/Light'
 import * as Pointer from './entities/Pointer'
 
-import {World} from '../../util/globals'
+import {World} from '../../globals'
 import {self} from '../../sync/state'
 
 let scene = null

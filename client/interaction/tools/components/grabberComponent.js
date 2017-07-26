@@ -1,7 +1,7 @@
 import Bacon from 'baconjs'
 import {head} from 'lodash'
 import {LerpComponent} from '../../../sync/components/lerpComponents'
-import {World} from '../../../util/globals'
+import {World} from '../../../globals'
 
 export default {
   dependencies: ['raycaster'],

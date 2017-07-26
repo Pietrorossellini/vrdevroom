@@ -1,7 +1,7 @@
 import {LerpComponent} from './lerpComponents'
 
 import avatar from '../../world/avatar'
-import {Sync} from '../../util/globals'
+import {Sync} from '../../globals'
 import {now} from '../../util/time'
 import {broadcastData} from '../../comms/commsHandler'
 

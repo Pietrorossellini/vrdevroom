@@ -1,4 +1,4 @@
-import {Sync} from '../../util/globals'
+import {Sync} from '../../globals'
 import {now} from '../../util/time'
 
 // TODO Generalize
