@@ -1,7 +1,7 @@
 import * as AFRAME from 'aframe'
 import * as log from 'loglevel'
 
-import {createScene, createCamera} from './world/scene'
+import {createScene, createCamera} from './world/scene/scene'
 import {join} from './comms/commsHandler'
 import {subscribe} from './comms/roomState'
 import avatar from './world/avatar'

@@ -18,9 +18,4 @@ const CardFactory = (() => {
   }
 })()
 
-const createCard = CardFactory.createCard
-
-export {
-  Card,
-  createCard
-}
+export default CardFactory.createCard

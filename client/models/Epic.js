@@ -1,10 +1,8 @@
 import {Record, List} from 'immutable'
 
-const Epic = Record({
+export default Record({
   backlog: List(),
   todo: List(),
   doing: List(),
   done: List()
 })
-
-export {Epic}

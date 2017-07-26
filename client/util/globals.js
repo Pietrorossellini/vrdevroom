@@ -1,6 +1,6 @@
 const World = {}
 
-World.BOARD_POS = new THREE.Vector2(0, -2.5)
+World.BOARD_POS = new THREE.Vector2(0, -3.5)
 World.CARD_SIZE = {width: 0.12, height: 0.12}
 World.CARD_Z = 0.01
 World.USER_HEIGHT = 1.6

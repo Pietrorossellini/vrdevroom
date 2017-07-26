@@ -1,6 +1,6 @@
 import {peers, cards} from './state'
 import {subscribe} from '../comms/roomState'
-import {createAvatar, removeAvatar} from '../world/scene'
+import {createAvatar, removeAvatar} from '../world/scene/scene'
 import {SyncSendComponent} from './components/senderComponents'
 
 import * as log from 'loglevel'
