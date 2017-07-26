@@ -1,6 +1,7 @@
 import {InputHandlerComponent} from '../../../interaction/inputHandler'
 import {SyncSendComponent} from '../../../sync/components/senderComponents'
 import {ToolComponent} from '../../../interaction/tools/toolComponents'
+import {AnimationComponent} from '../../../interaction/animationComponents'
 
 import avatar from '../../avatar'
 
@@ -13,7 +14,7 @@ function createPointer() {
 
 function configurePointer(pointer) {
   pointer.setAttribute('line', {
-    opacity: 0.3,
+    opacity: 0.5,
     color: avatar.getColor()
   })
 
@@ -25,6 +26,7 @@ function configurePointer(pointer) {
   pointer.setAttribute(SyncSendComponent.Pointer, '')
   pointer.setAttribute(ToolComponent.Grabber, '')
   pointer.setAttribute(ToolComponent.Zoomer, '')
+  pointer.setAttribute(AnimationComponent.PresentationIndicator, '')
 
   return pointer
 }

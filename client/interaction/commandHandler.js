@@ -16,6 +16,7 @@ class CommandHandler {
     this.pointer = pointer
     this.zoomTimer = null
     this.isGrabbing = false
+    this.isPresenting = false
   }
 
   _clearZoom() {
@@ -29,18 +30,23 @@ class CommandHandler {
     this.pointer.emit('grab', {action: false})
   }
 
+  _clearPresent() {
+    this.isPresenting = false
+    this.pointer.removeState('presenting')
+  }
+
   doCommand(command, action) {
     switch (action) {
       case Action.Activate:
         switch (command) {
           case Command.Zoom:
-            if (this.zoomTimer || this.isGrabbing) break
+            if (this.zoomTimer || this.isGrabbing || this.isPresenting) break
             this.zoomTimer = setTimeout(() => this.pointer.addState('zooming'), 400)
             break
           case Command.Present:
             this._clearZoom()
+            this.isPresenting = true
             this.pointer.addState('presenting')
-            this.pointer.setAttribute('line', {opacity: 1.0})
             break
           case Command.Grab:
             this._clearZoom()
@@ -58,8 +64,7 @@ class CommandHandler {
             this._clearZoom()
             break
           case Command.Present:
-            this.pointer.removeState('presenting')
-            this.pointer.setAttribute('line', {opacity: 0.3})
+            this._clearPresent()
             break
           case Command.Grab:
             this._clearGrab()

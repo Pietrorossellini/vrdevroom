@@ -5,6 +5,7 @@ import {definitions as audio} from './audio/audioComponents'
 import {definitions as tools} from './interaction/tools/toolComponents'
 import {definitions as actions} from './interaction/actionComponents'
 import {definitions as helpers} from './interaction/helperComponents'
+import {definitions as animations} from './interaction/animationComponents'
 import {definitions as lerp} from './sync/components/lerpComponents'
 import {definitions as senders} from './sync/components/senderComponents'
 import {definitions as receivers} from './sync/components/receiverComponents'
@@ -14,6 +15,7 @@ const definitions = [
   tools,
   actions,
   helpers,
+  animations,
   lerp,
   senders,
   receivers
