@@ -6,12 +6,14 @@ import {Epic} from '../models/Epic'
 import {createCard} from '../models/Card'
 import {self, cards} from '../sync/state'
 import avatar from '../world/avatar'
-import {SyncSendComponent, SyncReceiveComponent} from '../sync/syncComponents'
-import {CardAction} from '../interaction/actions'
-import {LerpComponent} from '../sync/lerp'
+import {SyncSendComponent} from '../sync/components/senderComponents'
+import {SyncReceiveComponent} from '../sync/components/receiverComponents'
+import {CardActionComponent} from '../interaction/actionComponents'
+import {LerpComponent} from '../sync/components/lerpComponents'
 import {World} from '../util/globals'
 
-import {truncateText, TextComponent} from './cardText'
+import {HelperComponent} from '../interaction/helperComponents'
+import {truncateText} from '../util/text'
 
 const BoardWidth = 3.0
 const BoardHeight = 1.8
@@ -215,9 +217,9 @@ function createTask(task, i, columnPosition) {
     wrapCount: 6,
     align: 'center'
   })
-  card.setAttribute(CardAction.Hover, '')
-  card.setAttribute(CardAction.Selection, 'color', avatar.getColor())
-  card.setAttribute(TextComponent.Card, 'value', task.text)
+  card.setAttribute(CardActionComponent.Hover, '')
+  card.setAttribute(CardActionComponent.Selection, 'color', avatar.getColor())
+  card.setAttribute(HelperComponent.CardText, 'value', task.text)
 
   const cardPosition = new THREE.Vector3().addVectors(columnPosition,
     new THREE.Vector2(

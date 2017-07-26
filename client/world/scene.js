@@ -3,13 +3,11 @@ import * as log from 'loglevel'
 
 import {World} from '../util/globals'
 import {self} from '../sync/state'
-import {
-  SyncSendComponent,
-  SyncReceiveComponent
-} from '../sync/syncComponents'
-import {LerpComponent} from '../sync/lerp'
-import {ToolComponent} from '../interaction/tools/toolType'
-import {AudioComponent} from '../audio/audioComponent'
+import {SyncSendComponent} from '../sync/components/senderComponents'
+import {SyncReceiveComponent} from '../sync/components/receiverComponents'
+import {LerpComponent} from '../sync/components/lerpComponents'
+import {ToolComponent} from '../interaction/tools/toolComponents'
+import {AudioComponent} from '../audio/audioComponents'
 import {InputHandlerComponent} from '../interaction/inputHandler'
 import {createBoard} from './board'
 import avatar from '../world/avatar'
