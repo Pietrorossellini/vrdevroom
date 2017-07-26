@@ -6,7 +6,7 @@ import {
   Action
 } from './commandHandler'
 import {World} from '../globals'
-import {self} from '../sync/state'
+import {self} from '../sync/ElementStore'
 
 const SpaceKeyCode = 32
 const cKeyCode = 67

@@ -1,4 +1,4 @@
-import {peers, cards} from './state'
+import {peers, cards} from './ElementStore'
 import {subscribe} from '../comms/roomState'
 import {createAvatar, removeAvatar} from '../world/scene/scene'
 import {SyncSendComponent} from './components/senderComponents'

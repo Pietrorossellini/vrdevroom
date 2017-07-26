@@ -5,7 +5,7 @@ import Grid from './Grid'
 import boardData from '../../../../data/board.json'
 import Board from '../../../../models/Board'
 
-import {cards} from '../../../../sync/state'
+import {cards} from '../../../../sync/ElementStore'
 import avatar from '../../../avatar'
 
 import {SyncSendComponent} from '../../../../sync/components/senderComponents'

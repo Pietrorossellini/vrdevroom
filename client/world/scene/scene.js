@@ -9,7 +9,7 @@ import * as Light from './entities/Light'
 import * as Pointer from './entities/Pointer'
 
 import {World} from '../../globals'
-import {self} from '../../sync/state'
+import {self} from '../../sync/ElementStore'
 
 let scene = null
 let camera = null

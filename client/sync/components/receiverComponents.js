@@ -2,7 +2,7 @@ import {SyncSendComponent} from './senderComponents'
 import {LerpComponent} from './lerpComponents'
 import {CardActionComponent} from '../../interaction/actionComponents'
 
-import {peers} from '../state'
+import {peers} from '../ElementStore'
 import {World} from '../../globals'
 import avatar from '../../world/avatar'
 
