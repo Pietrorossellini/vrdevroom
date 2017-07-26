@@ -1,8 +1,6 @@
-const TruncateLength = 10
-
-function truncateText(text) {
-  return text.length > TruncateLength
-    ? `${text.substring(0, 10)}...`
+function truncateText(text, length = 10, appendEllipsis = true) {
+  return text.length > length
+    ? `${text.substring(0, length)}${appendEllipsis ? '...' : ''}`
     : text
 }
 

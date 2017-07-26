@@ -3,7 +3,7 @@ import * as log from 'loglevel'
 
 import Room from './entities/Room'
 import Board from './entities/board/Board'
-import Avatar from './entities/Avatar'
+import Avatar from './entities/avatar/Avatar'
 import Camera from './entities/Camera'
 import * as Light from './entities/Light'
 import * as Pointer from './entities/Pointer'
@@ -38,12 +38,12 @@ function createPointer() {
   self.add(World.Keys.Pointer, pointer)
 }
 
-function createAvatar(id, pos, orientation, slot) {
-  log.info(`No existing avatar for id ${id}: creating`)
+function createAvatar(id, name, pos, orientation, slot) {
+  log.info(`No existing avatar for id ${id} (name ${name}): creating`)
 
   const {x, z} = pos
   const y = World.USER_HEIGHT
-  const avatar = Avatar(id, {x, y, z}, orientation, World.AVATAR_COLORS[slot])
+  const avatar = Avatar(id, name, {x, y, z}, orientation, World.AVATAR_COLORS[slot])
   addToScene(avatar)
   return avatar
 }

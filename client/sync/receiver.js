@@ -10,7 +10,7 @@ function handleRemoteChange(clientId, parsedData) {
 
   switch (type) {
     case 'peer':
-      upsertPeer(clientId, payload)
+      upsertPeer(clientId, id, payload)
       break
     case 'ray':
       updateRay(clientId, payload)
@@ -39,7 +39,7 @@ function prepareToLead() {
     })
 }
 
-function upsertPeer(id, data) {
+function upsertPeer(id, name, data) {
   const avatar = peers.get(id)
   const position = new THREE.Vector3().fromArray(data[0])
   const quaternion = new THREE.Quaternion().fromArray(data[1])
@@ -47,7 +47,7 @@ function upsertPeer(id, data) {
 
   if (avatar) avatar.emit('sync', {position, quaternion}, null, false)
   else {
-    const a = createAvatar(id, position, quaternion, slot)
+    const a = createAvatar(id, name, position, quaternion, slot)
     peers.add(id, a)
   }
 }

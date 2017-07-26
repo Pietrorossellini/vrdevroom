@@ -44,7 +44,7 @@ definitions[SyncSendComponent.Self] = createSender({
 
     const data = [
       'peer', // type
-      '', // id
+      avatar.getName(), // id / name
       pos.toArray(), // payload...
       q.toArray(),
       avatar.getSlot()

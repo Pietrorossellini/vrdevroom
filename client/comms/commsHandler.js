@@ -119,12 +119,12 @@ function disposePeer(clientId) {
   handleRemoteExit(clientId)
 }
 
-function join() {
+function join(nickname) {
   const room = config.roomName || prompt('Please enter the room name:')
 
   if (room !== '') {
     log.debug(`Creating or joining room ${room}`)
-    socket.emit('enter', room)
+    socket.emit('enter', room, nickname)
 
     navigator.mediaDevices.getUserMedia({
       audio: true,

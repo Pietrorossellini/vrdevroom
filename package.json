@@ -25,6 +25,7 @@
   },
   "dependencies": {
     "aframe": "^0.6.1",
+    "aframe-look-at-component": "^0.6.0",
     "baconjs": "^0.7.94",
     "express": "^4.15.3",
     "immutable": "^3.8.1",

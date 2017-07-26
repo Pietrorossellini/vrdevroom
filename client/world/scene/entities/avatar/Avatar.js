@@ -1,10 +1,14 @@
-import {AudioComponent} from '../../../audio/audioComponents'
-import {LerpComponent} from '../../../sync/components/lerpComponents'
-import {SyncReceiveComponent} from '../../../sync/components/receiverComponents'
+import 'aframe-look-at-component'
 
-import RayCaster from './RayCaster'
+import Name from './Name'
 
-export default function(id, position, orientation, color) {
+import {AudioComponent} from '../../../../audio/audioComponents'
+import {LerpComponent} from '../../../../sync/components/lerpComponents'
+import {SyncReceiveComponent} from '../../../../sync/components/receiverComponents'
+
+import RayCaster from '../RayCaster'
+
+export default function(id, name, position, orientation, color) {
   const {x, y, z} = position
 
   const avatar = document.createElement('a-entity')
@@ -73,6 +77,10 @@ export default function(id, position, orientation, color) {
 
   avatar.setAttribute(LerpComponent.Avatar, '')
   avatar.setAttribute(SyncReceiveComponent.Peer, '')
+
+  const nameLabel = Name(name)
+  nameLabel.setAttribute('look-at', '[camera]')
+  avatar.appendChild(nameLabel)
 
   avatar.appendChild(RayCaster(id, color))
 
