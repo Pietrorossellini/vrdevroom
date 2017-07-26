@@ -1,21 +1,20 @@
 import * as log from 'loglevel'
-import {createStore} from '../util/structures'
+
+import Streams from './StreamsStore'
 
 let audioCtx
-let streams
 
 function initAudio() {
   log.info('Initializing audio')
 
   audioCtx = new AudioContext()
-  streams = createStore()
 }
 
 function createAudioNode(id) {
   log.info('Creating audio node for client', id)
 
   const audio = new Audio()
-  audio.srcObject = streams.get(id)
+  audio.srcObject = Streams.get(id)
 
   const gainNode = audioCtx.createGain()
   gainNode.gain.value = 1.0
@@ -49,6 +48,5 @@ function getListener() {
 export {
   initAudio,
   createAudioNode,
-  getListener,
-  streams
+  getListener
 }

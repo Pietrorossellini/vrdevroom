@@ -6,7 +6,7 @@ import io from 'socket.io-client'
 import * as PC from './peerConnection'
 import {dispatch} from './roomState'
 import {handleRemoteChange, handleRemoteExit} from '../sync/receiver'
-import {streams} from '../audio/spatialAudio'
+import Streams from '../audio/StreamsStore'
 import {Sync} from '../util/globals'
 
 import config from '../config.json'
@@ -111,11 +111,11 @@ function receivedLocalStream(stream) {
 function handleNewRemoteStream(clientId, event) {
   log.info('Received remote stream')
 
-  streams.add(clientId, event.streams[0])
+  Streams.add(clientId, event.streams[0])
 }
 
 function disposePeer(clientId) {
-  streams.remove(clientId)
+  Streams.remove(clientId)
   handleRemoteExit(clientId)
 }
 
