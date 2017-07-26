@@ -1,14 +1,9 @@
 import 'webrtc-adapter/out/adapter'
 import {Map, Record} from 'immutable'
-import io from 'socket.io-client'
 import * as log from 'loglevel'
-import {
-  makeConnection,
-  acceptConnectionOffer,
-  acceptConnectionAnswer,
-  addIceCandidate,
-  closePc
-} from './peerConnection'
+import io from 'socket.io-client'
+
+import * as PC from './peerConnection'
 import {dispatch} from './roomState'
 import {handleRemoteChange, handleRemoteExit} from '../sync/receiver'
 import {streams} from '../audio/spatialAudio'
@@ -45,7 +40,7 @@ socket.on('joined', (room, _, slot) => {
 
 socket.on('leave', (room, peer) => {
   log.info(`Peer ${peer} leaved room ${room}`)
-  closePc(peer)
+  PC.closePc(peer)
   disposePeer(peer)
 })
 
@@ -66,16 +61,16 @@ socket.on('message', (clientId, message) => {
   // Messages are NOT echoed back to the original sender
   switch (message.type) {
     case 'streamAvailable':
-      makeConnection(clientId, localStream)
+      PC.makeConnection(clientId, localStream)
       break
     case 'offer':
-      acceptConnectionOffer(clientId, message, localStream)
+      PC.acceptConnectionOffer(clientId, message, localStream)
       break
     case 'answer':
-      acceptConnectionAnswer(clientId, message)
+      PC.acceptConnectionAnswer(clientId, message)
       break
     case 'candidate':
-      addIceCandidate(clientId, message)
+      PC.addIceCandidate(clientId, message)
       break
   }
 })
