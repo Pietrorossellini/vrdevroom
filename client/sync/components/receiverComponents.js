@@ -58,14 +58,20 @@ definitions[SyncReceiveComponent.Pointer] = createReceiver({
       const color = peers.get(peerId).querySelector('.avatar__head').getAttribute('material').color
       this.el.setAttribute('line', 'color', color)
 
-      this.el.setAttribute('raycaster', 'far', 100)
+      this.el.setAttribute('raycaster', {
+        far: 100,
+        interval: 17
+      })
       this.el.setAttribute('visible', true)
     } else if (isPresenting) {
       this.el.setAttribute(LerpComponent.Pointer, {position, direction})
     } else if (this.el.getAttribute('visible')) {
       this.el.setAttribute('visible', false)
-      this.el.setAttribute('raycaster', 'far', 0)
       this.el.removeAttribute(LerpComponent.Pointer)
+      this.el.setAttribute('raycaster', {
+        far: 0,
+        interval: 100
+      })
     }
   }
 })

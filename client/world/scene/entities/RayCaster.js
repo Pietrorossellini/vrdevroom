@@ -15,6 +15,7 @@ export default function(peerId, color) {
     color: new THREE.Color().setStyle(color),
     opacity: 0.5
   })
+  rayCaster.setAttribute('visible', false)
 
   rayCaster.setAttribute(SyncReceiveComponent.Pointer, {peerId})
 

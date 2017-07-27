@@ -55,18 +55,19 @@ definitions[SyncSendComponent.Self] = createSender({
 })
 
 definitions[SyncSendComponent.Pointer] = createSender({
-  schema: {
-    latestPresentationState: {type: 'boolean', default: false}
+  setInitialState: function() {
+    this.latestPresentationState = false
   },
 
   isDirty: function() {
     const isPresenting = this.el.is('presenting') || this.el.is('grabbing')
-    return this.data.latestPresentationState !== isPresenting
-      || isPresenting
+
+    // presents or state has changed (= notify others about presentation end)
+    return isPresenting || this.latestPresentationState !== isPresenting
   },
 
   sync: function() {
-    // if (!this.isDirty()) return
+    if (!this.isDirty()) return
 
     const isPresenting = this.el.is('presenting') || this.el.is('grabbing')
     const pos = this.el.components.raycaster.raycaster.ray.origin
@@ -81,7 +82,7 @@ definitions[SyncSendComponent.Pointer] = createSender({
     ]
 
     broadcastData(data)
-    // this.data.latestPresentationState = isPresenting
+    this.latestPresentationState = isPresenting
   }
 })
 

@@ -1,8 +1,6 @@
 import {Sync} from '../../globals'
 import {now} from '../../util/time'
 
-// TODO Generalize
-
 const LerpComponent = {
   Avatar: 'lerp-avatar',
   Pointer: 'lerp-pointer',
@@ -43,25 +41,39 @@ definitions[LerpComponent.Pointer] = {
   },
 
   init: function() {
-    this.prev = this.data
-    this.a = 0
+    this.el.setAttribute('position', this.data.position)
+    this.el.setAttribute('raycaster', 'direction', this.data.direction)
+
+    this.data = {
+      position: this.el.object3D.position,
+      direction: this.el.components.raycaster.raycaster.ray.direction
+    }
+
     this.pos = new THREE.Vector3()
     this.dir = new THREE.Vector3()
   },
 
-  update: function(oldData) {
-    this.prev.position = oldData.position || this.prev.position
-    this.prev.direction = oldData.direction || this.prev.direction
-    this.a = 0
-  },
-
   tick: function(_, timeDelta) {
-    this.a += timeDelta / Sync.TICK_INTERVAL
-    this.a = this.a <= 1.0 ? this.a : 1.0
-    this.pos.lerpVectors(this.prev.position, this.data.position, this.a)
-    this.dir.lerpVectors(this.prev.direction, this.data.direction, this.a)
-    this.el.setAttribute('position', this.pos)
-    this.el.setAttribute('raycaster', 'direction', this.dir)
+    const currentPos = this.el.object3D.position
+    const currentDir = this.el.components.raycaster.raycaster.ray.direction
+    const targetPos = this.data.position
+    const targetDir = this.data.direction
+    const position = this.pos
+    const direction = this.dir
+
+    let a = timeDelta / Sync.TICK_INTERVAL
+    position.copy(targetPos).sub(currentPos)
+    direction.copy(targetDir).sub(currentDir)
+
+    position.multiplyScalar(a)
+    direction.multiplyScalar(a)
+
+    this.el.setAttribute('position', currentPos.add(position))
+    this.el.setAttribute('raycaster', 'direction', {
+      x: currentDir.x + direction.x,
+      y: currentDir.y + direction.y,
+      z: currentDir.z + direction.z,
+    })
   }
 }
 
@@ -71,30 +83,22 @@ definitions[LerpComponent.Card] = {
   },
 
   init: function() {
-    this.prev = this.data = {position: this.el.object3D.position}
-    this.prevUpdateTime = now()
-    this.updateInterval = 0
-    this.a = 0
+    this.data = {position: this.el.object3D.position}
     this.pos = new THREE.Vector3()
-  },
-
-  update: function(oldData) {
-    this.prev.position = oldData.position || this.prev.position
-    this.el.setAttribute('position', this.prev.position)
-    this.a = 0
-    this.updateInterval = now() - this.prevUpdateTime
-    this.prevUpdateTime = now()
+    this.smoothing = 0.5
   },
 
   tick: function(_, timeDelta) {
-    this.a += timeDelta / this.updateInterval
-    this.a = this.a <= 1.0 ? this.a : 1.0
-    this.pos.lerpVectors(this.prev.position, this.data.position, this.a)
-    this.el.object3D.position.set(
-      this.pos.x,
-      this.pos.y,
-      this.pos.z
-    )
+    const currentPos = this.el.object3D.position
+    const targetPos = this.data.position
+    const position = this.pos
+    const smoothing = this.smoothing
+
+    let a = timeDelta / Sync.TICK_INTERVAL
+    position.copy(targetPos).sub(currentPos)
+    position.multiplyScalar(a * smoothing)
+
+    this.el.setAttribute('position', currentPos.add(position))
   }
 }
 
