@@ -1,5 +1,6 @@
 import {head} from 'lodash'
 import {HelperComponent} from '../../helperComponents'
+import {findLongestWord} from '../../../util/text'
 
 export default {
   dependencies: ['raycaster', HelperComponent.CardText],
@@ -35,7 +36,7 @@ export default {
       this.zoomedCard.setAttribute('text', {
         value: text,
         color: 'black',
-        wrapCount: Math.max(text.length / 5, 10),
+        wrapCount: Math.max(text.length / 5, findLongestWord(text).length, 10),
         opacity: 0.0
       })
 
