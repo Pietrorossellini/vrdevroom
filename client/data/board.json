@@ -1,43 +1,58 @@
 {
-  "Epic 1": {
+  "Visuals": {
     "backlog": [
-      "a"
+      "Normal maps",
+      "Room decorations"
     ],
     "todo": [
-      "b",
-      "c"
+      "Textures",
+      "Indicator for talking",
+      "Better looking avatars",
+      "Improved lighting"
     ],
     "doing": [
-      "d",
-      "e",
-      "f"
     ],
     "done": [
-      "g",
-      "h",
-      "i",
-      "j",
-      "k"
+      "Avatars",
+      "Representation for avatar face direction",
+      "Simple room environment",
+      "Basic lighting"
     ]
   },
-  "Epic 2": {
+  "Core": {
     "backlog": [
-      "a",
-      "b",
-      "c",
-      "d"
+      "Containerize servers",
+      "Improve audio spatialization"
     ],
     "todo": [
-      "e",
-      "f",
-      "g"
+      "Left-handed controls"
     ],
     "doing": [
-      "h",
-      "i"
+      "Functionality testing"
     ],
     "done": [
-      "j"
+      "RTC",
+      "Card drag & drop",
+      "Pointing",
+      "Avatar positioning",
+      "Avatar orientation transmission",
+      "Zoom tool"
+    ]
+  },
+  "UX": {
+    "backlog": [
+      "Interactions for room-scale VR",
+      "Input methods for non-VR mobile devices"
+    ],
+    "todo": [
+      "Improve interactions based on proto evaluation",
+      "Create tutorial"
+    ],
+    "doing": [
+      "Prototype evaluation"
+    ],
+    "done": [
+      "Design prototype interactions"
     ]
   }
 }

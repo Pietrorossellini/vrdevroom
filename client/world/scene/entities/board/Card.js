@@ -4,7 +4,7 @@ import {truncateText} from '../../../../util/text'
 
 import {World} from '../../../../globals'
 
-const CardSepH = 0.25
+const CardSepH = 0.20
 const CardSepV = 0.25
 
 export default function(task, position, selectionColor) {
@@ -35,8 +35,8 @@ export default function(task, position, selectionColor) {
 function findPosition(i, columnPosition, columnWidth, RowHeight) {
   return new THREE.Vector3().addVectors(columnPosition,
     new THREE.Vector2(
-      0.5 * columnWidth - World.CARD_SIZE.width - (i % 2 === 0 ? 0 : CardSepH),
-      0.5 * RowHeight - World.CARD_SIZE.height - Math.floor(0.5 * i) * CardSepV,
+      0.5 * columnWidth - World.CARD_SIZE.width - (i % 3 * CardSepH),
+      0.5 * RowHeight - World.CARD_SIZE.height - Math.floor(0.334 * i) * CardSepV,
     )).setZ(0.01)
 }
 

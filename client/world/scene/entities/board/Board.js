@@ -17,9 +17,9 @@ const BoardHeight = 1.8
 const NumCols = 4.0
 
 const ColSep = 0.1
-const RowSep = 0.4
+const RowSep = 0.25
 const ColWidth = (BoardWidth - (NumCols - 1) * ColSep) / NumCols
-const RowHeight = 0.5
+const RowHeight = 0.35
 
 let board
 
@@ -39,7 +39,7 @@ function createBoard(position) {
 
   let rowIndex = 0
   epics.forEach((taskList, name) => createEpic(name, taskList, rowIndex++))
-  const grid = Grid(NumCols, BoardWidth, BoardHeight)
+  const grid = Grid(NumCols, epics.size, BoardWidth, BoardHeight)
   board.appendChild(grid)
 
   attachSyncHandlers()
