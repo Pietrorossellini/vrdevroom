@@ -6,7 +6,7 @@ import {now} from '../../util/time'
 import {broadcastData} from '../../comms/commsHandler'
 
 const SyncSendComponent = {
-  Self: 'sender-self',
+  Peer: 'sender-peer',
   Pointer: 'sender-pointer',
   Card: 'sender-card'
 }
@@ -37,7 +37,7 @@ const createSender = definition => Object.assign({}, Sender, definition)
 
 const definitions = {}
 
-definitions[SyncSendComponent.Self] = createSender({
+definitions[SyncSendComponent.Peer] = createSender({
   sync: function() {
     const pos = this.el.object3D.getWorldPosition()
     const q = this.el.object3D.getWorldQuaternion()

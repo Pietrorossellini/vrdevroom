@@ -6,7 +6,7 @@ export default function(position) {
 
   camera.setAttribute('position', position)
   camera.setAttribute(AudioComponent.Listener, '')
-  camera.setAttribute(SyncSendComponent.Self, '')
+  camera.setAttribute(SyncSendComponent.Peer, '')
 
   return camera
 }
