@@ -11,7 +11,7 @@ const definitions = {}
 
 definitions[LerpComponent.Avatar] = {
   schema: {
-    quaternion: {type: 'string', default: ''} // no parsing
+    quaternion: {default: ''}
   },
 
   init: function() {
@@ -36,8 +36,8 @@ definitions[LerpComponent.Avatar] = {
 
 definitions[LerpComponent.Pointer] = {
   schema: {
-    position: {type: 'string', default: ''},
-    direction: {type: 'string', default: ''}
+    position: {default: ''},
+    direction: {default: ''}
   },
 
   init: function() {
@@ -79,7 +79,7 @@ definitions[LerpComponent.Pointer] = {
 
 definitions[LerpComponent.Card] = {
   schema: {
-    position: {type: 'string', default: ''}
+    position: {default: ''}
   },
 
   init: function() {
