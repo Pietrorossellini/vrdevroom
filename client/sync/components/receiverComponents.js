@@ -37,9 +37,7 @@ definitions[SyncReceiveComponent.Peer] = createReceiver({
   dependencies: [LerpComponent.Avatar],
 
   sync: function({position, quaternion}) {
-    const {x, z} = position
-    this.el.setAttribute('position', {x, y: 0, z})
-    this.el.setAttribute(LerpComponent.Avatar, 'quaternion', quaternion)
+    this.el.setAttribute(LerpComponent.Avatar, {position: position.setY(0), quaternion})
   }
 })
 

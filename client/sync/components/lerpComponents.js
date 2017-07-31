@@ -11,26 +11,37 @@ const definitions = {}
 
 definitions[LerpComponent.Avatar] = {
   schema: {
+    position: {default: ''},
     quaternion: {default: ''}
   },
 
   init: function() {
-    this.prev = this.data = this.el.querySelector('.avatar__head').object3D.quaternion
-    this.a = 0
+    this.data = {
+      position: this.el.object3D.position,
+      quaternion: this.el.querySelector('.avatar__head').object3D.quaternion
+    }
+
+    this.pos = new THREE.Vector3()
     this.q = new THREE.Quaternion()
   },
 
-  update: function(oldData) {
-    this.prev.quaternion = oldData.quaternion || new THREE.Quaternion()
-    this.a = 0
-  },
-
   tick: function(_, timeDelta) {
-    this.a += timeDelta / Sync.TICK_INTERVAL
-    THREE.Quaternion.slerp(this.prev.quaternion, this.data.quaternion, this.q, this.a <= 1.0 ? this.a : 1.0)
+    const currentPos = this.el.object3D.position.setY(0)
+    const currentQ = this.el.querySelector('.avatar__head').object3D.quaternion
+    const targetPos = this.data.position
+    const targetQ = this.data.quaternion
+    const position = this.pos
+    const q = this.q
 
+    let a = timeDelta / Sync.TICK_INTERVAL
+
+    position.copy(targetPos).sub(currentPos)
+    position.multiplyScalar(a)
+    this.el.setAttribute('position', currentPos.add(position))
+
+    THREE.Quaternion.slerp(currentQ, targetQ, q, a)
     const head = this.el.querySelector('.avatar__head')
-    head.object3D.setRotationFromQuaternion(this.q)
+    head.object3D.setRotationFromQuaternion(q)
   }
 }
 
