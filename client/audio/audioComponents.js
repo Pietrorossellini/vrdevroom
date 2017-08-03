@@ -39,6 +39,7 @@ definitions[AudioComponent.Listener] = {
   init: function() {
     this.listener = getListener()
     this.nextUpdateTime = now() + Sync.TICK_INTERVAL
+    this.up = new THREE.Vector3()
   },
 
   tick: function() {
@@ -52,11 +53,12 @@ definitions[AudioComponent.Listener] = {
   updateListener: function() {
     const p = this.el.getAttribute('position')
     const d = this.el.object3D.getWorldDirection().negate()
+    this.up.copy(this.el.object3D.up).applyQuaternion(this.el.object3D.quaternion)
 
     this.listener.setPosition(p.x, p.y, p.z)
     this.listener.setOrientation(
       d.x, d.y, d.z,
-      0, 1, 0
+      this.up.x, this.up.y, this.up.z
     )
 
     this.nextUpdateTime = now() + Sync.TICK_INTERVAL
