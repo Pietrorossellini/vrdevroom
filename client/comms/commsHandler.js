@@ -57,6 +57,25 @@ socket.on('lead', (room, leader) => {
 
 socket.on('log', array => log.debug.apply(log, array))
 
+socket.on('error', dispatchError)
+socket.on('connect_error', dispatchError)
+socket.on('connect_timeout', dispatchError)
+socket.on('reconnect_error', dispatchError)
+socket.on('reconnect_failed', dispatchError)
+
+socket.on('reconnect', clearError)
+
+function dispatchError() {
+  dispatch(new StateEvent({
+    type: RoomEvent.Error,
+    data: new Error('Error contacting the signaling server')
+  }))
+}
+
+function clearError() {
+  dispatch(new StateEvent({type: RoomEvent.Error, data: null}))
+}
+
 /*
  Connection events
  */

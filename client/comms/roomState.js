@@ -6,6 +6,7 @@ import * as log from 'loglevel'
 window.RoomEvent = {
   Joined: 'joined',
   Full: 'full',
+  Error: 'error',
   IsLeader: 'isLeader'
 }
 
@@ -14,6 +15,7 @@ window.StateEvent = Record({type: null, data: null})
 const initialState = Map({
   slot: null,
   full: false,
+  error: null,
   isLeader: null
 })
 
@@ -61,6 +63,9 @@ const dispatch = event => {
       break
     case RoomEvent.Full:
       state.setState(['full'], true)
+      break
+    case RoomEvent.Error:
+      state.setState(['error'], event.data)
       break
     case RoomEvent.IsLeader:
       state.setState(['isLeader'], event.data)

@@ -1,11 +1,8 @@
 import * as AFRAME from 'aframe'
 import * as log from 'loglevel'
 
-import {
-  createScene,
-  createMinimalScene,
-  createCamera
-} from './world/scene/scene'
+import {createScene, createCamera} from './world/scene/scene'
+import {prepareForErrors} from './world/errorHandler'
 import {join} from './comms/commsHandler'
 import {subscribe} from './comms/roomState'
 import avatar from './world/avatar'
@@ -33,11 +30,9 @@ function start() {
       registerInputHandlers(isGearVr)
     })
 
-  subscribe(['full'])
-    .first()
-    .onValue(() => createMinimalScene('The room is full. \nPlease try to re-join later.'))
-
+  prepareForErrors()
   prepareToLead()
+
   join(name)
 }
 
