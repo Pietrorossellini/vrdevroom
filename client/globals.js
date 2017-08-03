@@ -18,7 +18,7 @@ const Sync = {}
 
 Sync.TICK_RATE = 15
 Sync.TICK_INTERVAL = 1000.0 / Sync.TICK_RATE
-Sync.FORCE_UPDATE_INTERVAL = 5000
+Sync.FORCE_UPDATE_INTERVAL = 1500
 Sync.LOG_MESSAGES = false
 
 export {
