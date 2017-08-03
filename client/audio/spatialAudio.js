@@ -13,6 +13,11 @@ function initAudio() {
 function createAudioNode(id) {
   log.info('Creating audio node for client', id)
 
+  // The extra wrapping of stream via audio object is to conteract the bugs in chromium
+  // (see https://bugs.chromium.org/p/chromium/issues/detail?id=121673).
+  // However, this solution too has it's own set of problems,
+  // especially panning not working sometimes after page refreshes
+  // in mobile Chrome / Samsung Internet / Oculus browser.
   const audio = new Audio()
   audio.srcObject = Streams.get(id)
 
