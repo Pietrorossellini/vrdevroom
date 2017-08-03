@@ -14,6 +14,19 @@ export default function(id, name, position, orientation, color) {
   const avatar = document.createElement('a-entity')
   avatar.setAttribute('id', id)
 
+  avatar.appendChild(createHead({x: 0, y, z: 0}, orientation, color))
+  avatar.appendChild(createBody({x: 0, y: y - 0.45, z: 0}, color))
+  avatar.appendChild(createLabel(name))
+
+  avatar.appendChild(RayCaster(id, color))
+
+  avatar.setAttribute('position', {x, y: 0, z})
+  attachComponents(avatar)
+
+  return avatar
+}
+
+function createHead(position, orientation, color) {
   const head = document.createElement('a-entity')
   head.setAttribute('class', 'avatar__head')
   head.setAttribute('geometry', {
@@ -28,7 +41,7 @@ export default function(id, name, position, orientation, color) {
     color,
     flatShading: true
   })
-  head.setAttribute('position', {x: 0, y, z: 0})
+  head.setAttribute('position', position)
 
   const cap = document.createElement('a-entity')
   cap.setAttribute('geometry', {
@@ -51,7 +64,12 @@ export default function(id, name, position, orientation, color) {
     flatShading: true
   })
   head.appendChild(rod)
+  head.object3D.setRotationFromQuaternion(orientation)
 
+  return head
+}
+
+function createBody(position, color) {
   const body = document.createElement('a-entity')
   body.setAttribute('class', 'avatar__body')
   body.setAttribute('geometry', {
@@ -66,23 +84,20 @@ export default function(id, name, position, orientation, color) {
     color,
     flatShading: true
   })
-  body.setAttribute('position', {x: 0, y: y - 0.45, z: 0})
+  body.setAttribute('position', position)
 
-  avatar.appendChild(head)
-  avatar.appendChild(body)
+  return body
+}
 
-  avatar.setAttribute('position', {x, y: 0, z})
-  avatar.setAttribute(AudioComponent.SpatialSource, '')
-  head.object3D.setRotationFromQuaternion(orientation)
-
-  avatar.setAttribute(LerpComponent.Avatar, '')
-  avatar.setAttribute(SyncReceiveComponent.Peer, '')
-
+function createLabel(name) {
   const nameLabel = Name(name)
   nameLabel.setAttribute('look-at', '[camera]')
-  avatar.appendChild(nameLabel)
 
-  avatar.appendChild(RayCaster(id, color))
+  return nameLabel
+}
 
-  return avatar
+function attachComponents(avatar) {
+  avatar.setAttribute(AudioComponent.SpatialSource, '')
+  avatar.setAttribute(LerpComponent.Avatar, '')
+  avatar.setAttribute(SyncReceiveComponent.Peer, '')
 }
