@@ -5,6 +5,7 @@ import Room from './entities/Room'
 import Board from './entities/board/Board'
 import Avatar from './entities/avatar/Avatar'
 import Camera from './entities/Camera'
+import Message from './entities/Message'
 import * as Light from './entities/Light'
 import * as Pointer from './entities/Pointer'
 
@@ -78,8 +79,25 @@ function createScene() {
   entities.forEach(e => addToScene(e))
 }
 
+function createMinimalScene(message) {
+  log.info('Creating minimal scene')
+
+  scene = document.querySelector('a-scene')
+  const messagePosition = {x: 0, y: World.USER_HEIGHT, z: -1.5}
+
+  const entities = [
+    Room(),
+    Message(messagePosition, message),
+    Light.Ambient(),
+    Light.Point()
+  ]
+
+  entities.forEach(e => addToScene(e))
+}
+
 export {
   createScene,
+  createMinimalScene,
   createCamera,
   createAvatar,
   removeAvatar
