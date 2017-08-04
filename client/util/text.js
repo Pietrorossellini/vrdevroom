@@ -1,9 +1,7 @@
 import {words, orderBy, head} from 'lodash'
 
-function truncateText(text, length = 10, appendEllipsis = true) {
-  return text.length > length
-    ? `${text.substring(0, length)}${appendEllipsis ? '...' : ''}`
-    : text
+function truncateText(text, length = 10) {
+  return text.length > length ? text.substring(0, length) : text
 }
 
 function findLongestWord(text) {

@@ -1,6 +1,6 @@
 import {CardActionComponent} from '../../../../interaction/actionComponents'
 import {HelperComponent} from '../../../../interaction/helperComponents'
-import {truncateText} from '../../../../util/text'
+import {truncateText, findLongestWord} from '../../../../util/text'
 
 import {World} from '../../../../globals'
 
@@ -8,6 +8,8 @@ const CardSepH = 0.20
 const CardSepV = 0.25
 
 export default function(task, position, selectionColor) {
+  const text = truncateText(task.text)
+
   const card = document.createElement('a-entity')
   card.setAttribute('id', task.id)
   card.setAttribute('geometry', {
@@ -18,9 +20,9 @@ export default function(task, position, selectionColor) {
   card.setAttribute('material', 'color', 'yellow')
   card.setAttribute('class', 'card interactive')
   card.setAttribute('text', {
-    value: truncateText(task.text),
+    value: text,
     color: 'black',
-    wrapCount: 6,
+    wrapCount: Math.min(findLongestWord(text).length + 1, 5),
     align: 'center'
   })
   card.setAttribute(CardActionComponent.Hover, '')

@@ -1,3 +1,5 @@
+const width = 0.4
+const height = 0.4
 const z = 0.1
 
 function Row(text, position) {
@@ -5,8 +7,8 @@ function Row(text, position) {
 
   rowLabel.setAttribute('geometry', {
     primitive: 'plane',
-    width: 0.4,
-    height: 0.4
+    width,
+    height
   })
   rowLabel.setAttribute('material', {
     color: 'grey'
@@ -29,8 +31,8 @@ function Column(text, position) {
 
   colLabel.setAttribute('geometry', {
     primitive: 'plane',
-    width: 0.4,
-    height: 0.4
+    width,
+    height
   })
   colLabel.setAttribute('material', {
     color: 'grey'
@@ -51,8 +53,8 @@ function Column(text, position) {
 function findRowLabelPosition(rowPosition, boardWidth) {
   return new THREE.Vector3().addVectors(rowPosition,
     new THREE.Vector3(
-      -0.5 * boardWidth - 0.2,
-      0,
+      -0.5 * boardWidth - 0.5 * width,
+      -0.1,
       z
     ))
 }
@@ -61,7 +63,7 @@ function findColumnLabelPosition(columnPosition, rowHeight) {
   return new THREE.Vector3().addVectors(columnPosition,
     new THREE.Vector3(
       0,
-      0.5 * rowHeight + 0.2,
+      0.5 * rowHeight + 0.5 * height,
       z
     ))
 }
