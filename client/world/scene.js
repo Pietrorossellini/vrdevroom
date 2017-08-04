@@ -69,15 +69,6 @@ function createPointer() {
   } else {
     log.warn('Not using GearVR: revering to cursor controls.')
     pointer.setAttribute('cursor', {rayOrigin: 'mouse'})
-    pointer.setAttribute('position', {x: 0, y: 0, z: -0.2})
-    pointer.setAttribute('geometry', {
-      primitive: 'circle',
-      radius: 0.002
-    })
-    pointer.setAttribute('material', {
-      color: 'yellow',
-      shader: 'flat'
-    })
 
     const camera = document.querySelector('a-camera')
     camera.appendChild(pointer)
