@@ -2,5 +2,6 @@ node_modules
 npm-debug*
 public/bundle.js
 server/build
+client/config.json
 *.hot-update.json
 *.hot-update.js

@@ -1,0 +1,4 @@
+{
+  "sigServerAddress": "signallingServerAddress",
+  "roomName": "maybeRoomName"
+}
