@@ -6,7 +6,7 @@ import {prepareForErrors} from './world/errorHandler'
 import {join} from './comms/commsHandler'
 import {subscribe} from './comms/roomState'
 import avatar from './world/avatar'
-import {initAudio} from './audio/spatialAudio'
+import SpatialAudio from './audio/SpatialAudio'
 import {prepareToLead} from './sync/receiver'
 
 import {registerComponents} from './components'
@@ -19,7 +19,7 @@ function start() {
 
   const name = promptForName()
   registerComponents()
-  initAudio()
+  SpatialAudio.init()
 
   subscribe(['slot'])
     .first()

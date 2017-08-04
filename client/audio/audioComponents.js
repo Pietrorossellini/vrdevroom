@@ -1,4 +1,4 @@
-import {createAudioNode, getListener} from './spatialAudio'
+import SpatialAudio from './SpatialAudio'
 import {Sync} from '../globals'
 import {now} from '../util/time'
 
@@ -10,12 +10,8 @@ const AudioComponent = {
 const definitions = {}
 
 definitions[AudioComponent.SpatialSource] = {
-  schema: {
-    stream: {type: 'asset', default: ''}
-  },
-
   init: function() {
-    this.panner = createAudioNode(this.el.id, this.data.stream)
+    this.panner = SpatialAudio.createAudioNode(this.el.id)
     this.nextUpdateTime = now() + Sync.TICK_INTERVAL
   },
 
@@ -25,6 +21,10 @@ definitions[AudioComponent.SpatialSource] = {
 
   shouldUpdate: function() {
     return now() >= this.nextUpdateTime
+  },
+
+  remove: function() {
+    this.panner.disconnect()
   },
 
   updatePosition: function() {
@@ -37,7 +37,7 @@ definitions[AudioComponent.SpatialSource] = {
 
 definitions[AudioComponent.Listener] = {
   init: function() {
-    this.listener = getListener()
+    this.listener = SpatialAudio.getListener()
     this.nextUpdateTime = now() + Sync.TICK_INTERVAL
     this.up = new THREE.Vector3()
   },
