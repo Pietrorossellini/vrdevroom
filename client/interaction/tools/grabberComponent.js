@@ -28,9 +28,15 @@ function registerGrabberComponent() {
           .filter(el => el.classList.contains('card')))
         .map(cards => head(cards))
         .filter(card => !!card)
-        .onValue(card => this.grabbedCard = card)
+        .onValue(card => {
+          this.grabbedCard = card
+          this.el.addState('grabbing')
+        })
 
-      release.onValue(() => this.grabbedCard = null)
+      release.onValue(() => {
+        this.grabbedCard = null
+        this.el.removeState('grabbing')
+      })
 
       this.el.addEventListener('raycaster-intersection', this.handleIntersection.bind(this))
       this.el.addEventListener('grab', this.pushGrabs)

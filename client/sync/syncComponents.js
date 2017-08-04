@@ -85,7 +85,7 @@ function registerSyncComponents() {
     },
 
     isDirty: function() {
-      const isPresenting = this.el.is('presenting')
+      const isPresenting = this.el.is('presenting') || this.el.is('grabbing')
       return this.data.latestPresentationState !== isPresenting
         || isPresenting
     },
@@ -93,9 +93,9 @@ function registerSyncComponents() {
     sync: function() {
       if (!this.isDirty()) return
 
-      const isPresenting = this.el.is('presenting')
-      const pos = this.el.object3D.getWorldPosition()
-      const dir = this.el.object3D.getWorldDirection().negate()
+      const isPresenting = this.el.is('presenting') || this.el.is('grabbing')
+      const pos = this.el.components.raycaster.raycaster.ray.origin
+      const dir = this.el.components.raycaster.raycaster.ray.direction
 
       const data = [
         'ray',

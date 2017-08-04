@@ -13,7 +13,7 @@ function handleRemoteChange(clientId, parsedData) {
       upsertPeer(clientId, payload)
       break
     case 'ray':
-      upsertRay(clientId, payload)
+      updateRay(clientId, payload)
       break
     case 'card':
       upsertCard(id, payload)
@@ -51,8 +51,9 @@ function upsertPeer(id, data) {
   }
 }
 
-function upsertRay(peerId, data) {
+function updateRay(peerId, data) {
   const avatar = peers.get(peerId)
+  if (!avatar) return
   const rayCaster = avatar.querySelector('.avatar__raycaster')
 
   const isPresenting = data[0]
