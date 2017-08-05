@@ -1,5 +1,3 @@
-import * as AFRAME from 'aframe'
-
 import {
   CommandHandler,
   Command,

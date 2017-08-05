@@ -1,4 +1,3 @@
-import * as AFRAME from 'aframe'
 import * as log from 'loglevel'
 
 import {definitions as audio} from './audio/audioComponents'

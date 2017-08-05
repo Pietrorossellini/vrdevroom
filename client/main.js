@@ -1,4 +1,3 @@
-import * as AFRAME from 'aframe'
 import * as log from 'loglevel'
 
 import {createScene, createCamera} from './world/scene/scene'
