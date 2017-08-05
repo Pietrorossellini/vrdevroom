@@ -9,24 +9,50 @@ export default function Panner(srcStream) {
   this.audioObj.srcObject = srcStream
   this.audioObj.muted = true
 
-  this.srcNode = SpatialAudio.getContext().createMediaStreamSource(srcStream)
+  const ctx = SpatialAudio.getContext()
+
+  this.srcNode = ctx.createMediaStreamSource(srcStream)
   this.panNode = createPanner()
-  this.destNode = SpatialAudio.getContext().destination
+  this.gainNode = createGain()
+  this.compNode = createCompressor()
+  this.destNode = ctx.destination
 
   function createPanner() {
-    const panner = SpatialAudio.getContext().createPanner()
+    const panner = ctx.createPanner()
     panner.setPosition(-5, 0, 0)
 
     return panner
   }
 
+  function createGain() {
+    const gain = ctx.createGain()
+    gain.gain.value = 1.0
+
+    return gain
+  }
+
+  function createCompressor() {
+    const comp = ctx.createDynamicsCompressor()
+    comp.threshold.value = -55
+    comp.knee.value = 30
+    comp.ratio.value = 12
+    comp.attack.value = 0.01
+    comp.release.value = 0.02
+
+    return comp
+  }
+
   this.srcNode
     .connect(this.panNode)
+    .connect(this.gainNode)
+    .connect(this.compNode)
     .connect(this.destNode)
 }
 
 Panner.prototype = {
   disconnect: function() {
+    this.compNode.disconnect()
+    this.gainNode.disconnect()
     this.panNode.disconnect()
     this.srcNode.disconnect()
     this.audioObj.srcObject = null
