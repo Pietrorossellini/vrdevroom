@@ -39,7 +39,7 @@ function createPointer() {
 }
 
 function createAvatar(id, name, pos, orientation, slot) {
-  log.info(`No existing avatar for id ${id} (name ${name}): creating`)
+  log.info(`No existing avatar for id ${id} (name ${name}, slot ${slot}): creating`)
 
   const {x, z} = pos
   const y = World.USER_HEIGHT

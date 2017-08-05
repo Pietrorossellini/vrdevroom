@@ -62,7 +62,7 @@ function updateRay(peerId, data) {
   const direction = new THREE.Vector3().fromArray(data[2])
 
   avatar.object3D.worldToLocal(position)
-  rayCaster.emit('sync', {position, direction, isPresenting, peerId}, null, false)
+  rayCaster.emit('sync', {position, direction, isPresenting}, null, false)
 }
 
 function upsertCard(peerId, id, data) {

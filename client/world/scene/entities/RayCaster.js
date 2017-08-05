@@ -11,13 +11,10 @@ export default function(peerId, color) {
     recursive: false
   })
 
-  rayCaster.setAttribute('line', {
-    color: new THREE.Color().setStyle(color),
-    opacity: 0.5
-  })
+  rayCaster.setAttribute('line', {color})
   rayCaster.setAttribute('visible', false)
 
-  rayCaster.setAttribute(SyncReceiveComponent.Pointer, {peerId})
+  rayCaster.setAttribute(SyncReceiveComponent.Pointer, '')
 
   return rayCaster
 }

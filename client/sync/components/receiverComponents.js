@@ -44,19 +44,11 @@ definitions[SyncReceiveComponent.Peer] = createReceiver({
 definitions[SyncReceiveComponent.Pointer] = createReceiver({
   dependencies: [LerpComponent.Pointer],
 
-  schema: {
-    peerId: {type: 'string', default: ''}
-  },
-
-  sync: function({position, direction, isPresenting, peerId}) {
+  sync: function({position, direction, isPresenting}) {
     if (isPresenting && !this.el.getAttribute('visible')) {
-      this.el.setAttribute(LerpComponent.Pointer, {position, direction})
-
-      // There seems to be a problem setting the color beforehand, so here we make sure it's set correctly
-      const color = peers.get(peerId).querySelector('.avatar__head').getAttribute('material').color
-      this.el.setAttribute('line', 'color', color)
-
+      this.el.setAttribute('position', position)
       this.el.setAttribute('raycaster', {
+        direction,
         far: 100,
         interval: 17
       })

@@ -52,9 +52,6 @@ definitions[LerpComponent.Pointer] = {
   },
 
   init: function() {
-    this.el.setAttribute('position', this.data.position)
-    this.el.setAttribute('raycaster', 'direction', this.data.direction)
-
     this.data = {
       position: this.el.object3D.position,
       direction: this.el.components.raycaster.raycaster.ray.direction
