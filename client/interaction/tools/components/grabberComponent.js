@@ -4,7 +4,7 @@ import {LerpComponent} from '../../../sync/components/lerpComponents'
 import {World} from '../../../globals'
 
 export default {
-  dependencies: ['raycaster'],
+  dependencies: ['raycaster', 'line'],
 
   init: function() {
     this.grabbedCard = null
