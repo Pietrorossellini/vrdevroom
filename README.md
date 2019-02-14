@@ -5,8 +5,6 @@
 VR deVRoom is a networked WebVR prototype application for supporting remote collaboration within agile software development.
 It presents a virtual room with a Kanban-style board that the users can manipulate together.
 
-> Try VR deVRoom out at [vrdevroom.com](https://www.vrdevroom.com)
-
 The prototype uses [WebRTC](https://developer.mozilla.org/en-US/docs/Web/API/WebRTC_API) for communication
 and the VR environment is built on top of [A-Frame](https://aframe.io/).
 
